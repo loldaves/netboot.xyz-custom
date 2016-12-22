@@ -4,9 +4,34 @@
 ###
 
 :custom
-set os Arch Linux
-kernel http://muug.ca/mirror/archlinux/iso/2016.12.01/arch/boot/x86_64/vmlinuz initrd=archiso.img archiso_http_srv=http://muug.ca/mirror/archlinux/iso/2016.12.01/ archisobasedir=arch verify=n ip=dhcp net.ifnames=0 vga=791
-initrd http://muug.ca/mirror/archlinux/iso/2016.12.01/arch/boot/x86_64/archiso.img
+clear arch_version
+clear arch_mirror
+clear archiso_http_srv
+clear archisobasedir
+menu Arch Linux
+item --gap Latest Releases
+item 2016.12.01 2016.12.01
+item 2016.11.01 2016.11.01
+item 2016.10.01 2016.10.01
+choose arch_version || goto custom_exit
+goto custom_mirror
+
+:custom_mirror
+menu Arch Linux
+item --gap Mirrors
+item http://mirror.cedille.club/archlinux http://mirror.cedille.club/archlinux
+item http://archlinux.mirror.rafal.ca http://archlinux.mirror.rafal.ca
+item http://mirror.csclub.uwaterloo.ca/archlinux http://mirror.csclub.uwaterloo.ca/archlinux
+item http://mirror.rackspace.com/archlinux http://mirror.rackspace.com/archlinux
+item http://mirror.its.dal.ca/archlinux http://mirror.its.dal.ca/archlinux
+choose arch_mirror || goto custom_exit
+goto custom_mirror
+
+:custom_boot
+set archiso_http_srv ${arch_mirror}/iso/${arch_version}/
+set archisobasedir arch
+kernel ${arch_mirror}/iso/${arch_version}/arch/boot/x86_64/vmlinuz initrd=archiso.img archiso_http_srv=${archiso_http_srv}/ archisobasedir=${archisobasedir} ip=dhcp net.ifnames=0 vga=current nouveau.modeset=0
+initrd ${arch_mirror}/iso/${arch_version}/arch/boot/x86_64/archiso.img
 boot
 goto custom_exit
 
