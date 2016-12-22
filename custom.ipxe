@@ -3,10 +3,13 @@
 ### netboot.xyz-custom menu
 ###
 
-:start
-echo Hello world!
-sleep 10
+:custom
+set os Arch Linux
+kernel http://muug.ca/mirror/archlinux/iso/2016.12.01/arch/boot/x86_64/vmlinuz initrd=archiso.img archiso_http_srv=http://muug.ca/mirror/archlinux/iso/2016.12.01/ archisobasedir=arch verify=n ip=dhcp net.ifnames=0 vga=791
+initrd http://muug.ca/mirror/archlinux/iso/2016.12.01/arch/boot/x86_64/archiso.img
+boot
 goto custom_exit
 
 :custom_exit
+clear menu
 exit 0
